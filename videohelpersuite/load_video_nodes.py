@@ -143,9 +143,8 @@ def load_video_cv(video: str, force_rate: int, force_size: str,
                                frame_load_cap*target_frame_time*select_every_nth)
 
     # TODO: check on variable frame rate and gifs
-    # TODO: add float support, int may be bad
     video_cap = cv2.VideoCapture(video)
-    fps = int(video_cap.get(cv2.CAP_PROP_FPS))
+    fps = video_cap.get(cv2.CAP_PROP_FPS)
 
     return (images, len(images), fps, lazy_eval(audio))
 
@@ -180,7 +179,7 @@ class LoadVideoUpload:
 
     CATEGORY = "Video Helper Suite 🎥🅥🅗🅢"
 
-    RETURN_TYPES = ("IMAGE", "INT", "INT", "VHS_AUDIO", )
+    RETURN_TYPES = ("IMAGE", "INT", "FLOAT", "VHS_AUDIO", )
     RETURN_NAMES = ("IMAGE", "frame_count", "fps", "audio",)
     FUNCTION = "load_video"
 
@@ -224,7 +223,7 @@ class LoadVideoPath:
 
     CATEGORY = "Video Helper Suite 🎥🅥🅗🅢"
 
-    RETURN_TYPES = ("IMAGE", "INT", "INT", "VHS_AUDIO", )
+    RETURN_TYPES = ("IMAGE", "INT", "FLOAT", "VHS_AUDIO", )
     RETURN_NAMES = ("IMAGE", "frame_count", "fps", "audio",)
     FUNCTION = "load_video"
 
