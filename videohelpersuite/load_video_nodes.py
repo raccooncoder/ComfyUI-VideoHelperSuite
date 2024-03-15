@@ -141,7 +141,13 @@ def load_video_cv(video: str, force_rate: int, force_size: str,
     #Setup lambda for lazy audio capture
     audio = lambda : get_audio(video, skip_first_frames * target_frame_time,
                                frame_load_cap*target_frame_time*select_every_nth)
-    return (images, len(images), lazy_eval(audio))
+
+    # TODO: check on variable frame rate and gifs
+    # TODO: add float support, int may be bad
+    video_cap = cv2.VideoCapture(video)
+    fps = int(video_cap.get(cv2.CAP_PROP_FPS))
+
+    return (images, len(images), fps, lazy_eval(audio))
 
 
 class LoadVideoUpload:
@@ -174,8 +180,8 @@ class LoadVideoUpload:
 
     CATEGORY = "Video Helper Suite 🎥🅥🅗🅢"
 
-    RETURN_TYPES = ("IMAGE", "INT", "VHS_AUDIO", )
-    RETURN_NAMES = ("IMAGE", "frame_count", "audio",)
+    RETURN_TYPES = ("IMAGE", "INT", "INT", "VHS_AUDIO", )
+    RETURN_NAMES = ("IMAGE", "frame_count", "fps", "audio",)
     FUNCTION = "load_video"
 
     def load_video(self, **kwargs):
@@ -218,8 +224,8 @@ class LoadVideoPath:
 
     CATEGORY = "Video Helper Suite 🎥🅥🅗🅢"
 
-    RETURN_TYPES = ("IMAGE", "INT", "VHS_AUDIO", )
-    RETURN_NAMES = ("IMAGE", "frame_count", "audio",)
+    RETURN_TYPES = ("IMAGE", "INT", "INT", "VHS_AUDIO", )
+    RETURN_NAMES = ("IMAGE", "frame_count", "fps", "audio",)
     FUNCTION = "load_video"
 
     def load_video(self, **kwargs):
